@@ -22,13 +22,15 @@ colorscheme desert
 hi clear SpellBad
 hi SpellBad cterm=underline
 
-set expandtab nu
+set expandtab
 set backspace=indent,eol,start
 
 set mouse=
 
 set incsearch
 set hlsearch
+
+set number
 
 " Min lines above/below the cursor
 set scrolloff=5
