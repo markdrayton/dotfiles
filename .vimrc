@@ -32,6 +32,10 @@ set hlsearch
 
 set number
 
+" per project .vimrcs
+set exrc
+set secure
+
 " Min lines above/below the cursor
 set scrolloff=5
 
