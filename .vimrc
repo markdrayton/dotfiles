@@ -18,7 +18,11 @@ source $VIMRUNTIME/defaults.vim
 set laststatus=2
 set noshowmode
 
+" Colours
 colorscheme desert
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ }
 
 " Spelling
 hi clear SpellBad
