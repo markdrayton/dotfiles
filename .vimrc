@@ -14,11 +14,13 @@ call plug#end()
 unlet! skip_defaults_vim
 source $VIMRUNTIME/defaults.vim
 
-" status line stuff
+" Status line stuff
 set laststatus=2
 set noshowmode
 
 colorscheme desert
+
+" Spelling
 hi clear SpellBad
 hi SpellBad cterm=underline
 
@@ -30,13 +32,22 @@ set mouse=
 set incsearch
 set hlsearch
 
+" Min lines above/below the cursor
+set scrolloff=5
 set number
 
-" per project .vimrcs
+" New splits to right and bottom
+set splitright
+set splitbelow
+
+" Per project .vimrcs
 set exrc
 set secure
 
-" Min lines above/below the cursor
-set scrolloff=5
+" Compile cmake projects
+nnoremap <Leader>mb :make -C build
 
-nnoremap <Leader>m :make -C build
+" Bash like keys for the Vim command line
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
