@@ -6,9 +6,10 @@ endif
 
 call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
-
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-sleuth'
 call plug#end()
 
 unlet! skip_defaults_vim
@@ -31,6 +32,9 @@ hi SpellBad cterm=underline
 set expandtab
 set backspace=indent,eol,start
 
+" C++
+autocmd Filetype cpp setlocal expandtab tabstop=2 shiftwidth=2
+
 set mouse=
 
 set incsearch
@@ -47,9 +51,6 @@ set splitbelow
 " Per project .vimrcs
 set exrc
 set secure
-
-" Compile cmake projects
-nnoremap <Leader>mb :make -C build
 
 " Bash like keys for the Vim command line
 cnoremap <C-A> <Home>
