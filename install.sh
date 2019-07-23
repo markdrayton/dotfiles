@@ -3,10 +3,10 @@
 set -euo pipefail
 
 DRY_RUN=0
-DOT_DIR=~/.dotfiles
-AGENT_UNIT=~/.config/systemd/user/ssh-agent.service
+DOT_DIR=$HOME/.dotfiles
+AGENT_UNIT=$HOME/.config/systemd/user/ssh-agent.service
 
-if [ $(pwd) != "$DOT_DIR" ]; then
+if [ "$(pwd)" != "$DOT_DIR" ]; then
     echo "Run from $DOT_DIR"
     exit 1
 fi
@@ -32,8 +32,8 @@ echo "Installing into ${DOT_DIR}"
 do_link_file() {
     SRC_FILE=$1
     DST_FILE=$2
-    mkdir -p $(dirname $DST_FILE)
-    echo "  link $SRC_FILE -> $DST_FILE"
+    mkdir -p "$(dirname "$DST_FILE")"
+    echo "- link $SRC_FILE -> $DST_FILE"
     if [ "$DRY_RUN" -eq "0" ]; then
         ln -sf "$SRC_FILE" "$DST_FILE"
     fi
@@ -54,15 +54,16 @@ link_files() {
     if [ "$#" -gt 1 ]; then
         DST_DIR=$2
     fi
-    find $DOT_DIR/$SRC_DIR -maxdepth 1 -type f | sort | while read SRC_FILE; do
-    DST_FILE=~/$DST_DIR/$(basename $SRC_FILE)
-        do_link_file $SRC_FILE $DST_FILE
+    find "$DOT_DIR/$SRC_DIR" -maxdepth 1 -type f | sort \
+            | while read -r SRC_FILE; do
+        DST_FILE="$HOME/$DST_DIR/$(basename "$SRC_FILE")"
+        do_link_file "$SRC_FILE" "$DST_FILE"
     done
 }
 
 ssh_agent_unit() {
     if [ ! -e "$AGENT_UNIT" ]; then
-        mkdir -p ${AGENT_UNIT%/*}
+        mkdir -p "$(dirname "$AGENT_UNIT")"
         cat << 'EOF' >> "$AGENT_UNIT"
 [Unit]
 Description=SSH key agent
@@ -83,7 +84,7 @@ EOF
 link_files root .
 link_file .ssh/config
 
-if [ $(ps -ocomm= 1) == "systemd" ]; then
+if [ "$(ps -ocomm= 1)" == "systemd" ]; then
     echo "Adding ssh-agent systemd unit"
     if [ "$DRY_RUN" -eq "0" ]; then
         ssh_agent_unit
