@@ -1,12 +1,12 @@
 #!/bin/bash
 
-set -euo pipefail
-shopt -s dotglob globstar nullglob
-
 if [[ ${BASH_VERSINFO[0]} -lt 4 ]]; then
     echo "needs bash version >= 4" >&2
     exit 1
 fi
+
+set -euo pipefail
+shopt -s dotglob globstar nullglob
 
 [[ "$0" == /* ]] && target=$(dirname "$0") || target=$PWD
 
