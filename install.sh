@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ ${BASH_VERSINFO[0]} -lt 4 ]]; then
     echo "needs bash version >= 4" >&2
