@@ -10,10 +10,17 @@ shopt -s dotglob globstar nullglob
 
 [[ "$0" == /* ]] && target=$(dirname "$0") || target=$PWD
 
+if [[ -f "$target/.manifest" ]]; then
+    comm -3 <(sort "$target/.manifest") \
+            <(git ls-tree -r HEAD --name-only | sort) | while read -r del; do
+        rm -v "$HOME/$del"
+    done
+fi
+
 for file in "$target"/**/*; do
     base="${file#$target/}"
     case "$base" in
-	.git|.git/*|install.sh) continue ;;
+	.git|.gitignore|.git/*|.manifest|install.sh) continue ;;
     esac
 
     if [[ -d "$base" ]]; then
@@ -22,6 +29,8 @@ for file in "$target"/**/*; do
         ln -sfv "$file" "$HOME/$base"
     fi
 done
+
+git ls-tree -r HEAD --name-only > "$target/.manifest"
 
 if [[ "$(ps -ocomm= 1)" == "systemd" ]]; then
     echo "Adding ssh-agent systemd unit"
