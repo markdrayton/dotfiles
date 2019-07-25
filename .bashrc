@@ -37,9 +37,16 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 export EDITOR=vim
 
-# git branches in prompt
-PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
-GIT_PS1_SHOWCOLORHINTS=1
+# Mac OS git-prompt.sh
+if [ -e /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh ]; then
+    . /Library/Developer/CommandLineTools/usr/share/git-core/git-prompt.sh
+fi
+
+if type __git_ps1 > /dev/null; then
+    # git branches in prompt
+    PROMPT_COMMAND='__git_ps1 "\u@\h:\w" "\\\$ "'
+    GIT_PS1_SHOWCOLORHINTS=1
+fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
