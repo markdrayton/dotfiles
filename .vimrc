@@ -20,6 +20,7 @@ set laststatus=2
 set noshowmode
 
 " Colours
+set t_Co=256
 colorscheme desert
 let g:lightline = {
       \ 'colorscheme': 'wombat',
