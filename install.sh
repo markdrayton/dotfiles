@@ -20,11 +20,11 @@ fi
 for file in "$target"/**/*; do
     base="${file#$target/}"
     case "$base" in
-	.git|.gitignore|.git/*|.manifest|install.sh) continue ;;
+        .git|.gitignore|.git/*|.manifest|install.sh) continue ;;
     esac
 
     if [[ -d "$base" ]]; then
-	mkdir -pv "$HOME/$base"
+        mkdir -pv "$HOME/$base"
     else
         ln -sfv "$file" "$HOME/$base"
     fi
