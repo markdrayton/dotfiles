@@ -121,3 +121,20 @@ tmp() {
 sus() {
     sort | uniq -c | sort -n
 }
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    chrome-history() {
+        local cols sep
+        cols=$((COLUMNS / 3))
+        sep='{::}'
+
+        tmpdb=/tmp/chrome-history.sqlite
+        cp -f ~/Library/Application\ Support/Google/Chrome/Default/History $tmpdb
+
+        sqlite3 -separator $sep $tmpdb \
+            "select substr(title, 1, $cols), url
+             from urls order by last_visit_time desc" \
+        | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' \
+        | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+    }
+fi
