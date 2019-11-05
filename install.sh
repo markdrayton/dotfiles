@@ -11,7 +11,7 @@ shopt -s dotglob globstar nullglob
 [[ "$0" == /* ]] && target=$(dirname "$0") || target=$PWD
 
 if [[ -f "$target/.manifest" ]]; then
-    comm -3 <(sort "$target/.manifest") \
+    comm -23 <(sort "$target/.manifest") \
             <(git ls-tree -r HEAD --name-only | sort) | while read -r del; do
         rm -v "$HOME/$del"
     done
