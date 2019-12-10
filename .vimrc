@@ -57,3 +57,6 @@ set secure
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 cnoremap <C-K> <C-U>
+
+" Easier buffer switching
+:nnoremap <leader>ls :ls<cr>:b<space>
