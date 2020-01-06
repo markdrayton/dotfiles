@@ -123,7 +123,7 @@ sus() {
 }
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    chrome-history() {
+    ch() {
         local cols sep
         cols=$((COLUMNS / 3))
         sep='{::}'
