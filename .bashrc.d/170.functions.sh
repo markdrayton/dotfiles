@@ -1,5 +1,5 @@
 ,() {
-    paste -sd,
+    paste -sd, -
 }
 
 highlight() {
