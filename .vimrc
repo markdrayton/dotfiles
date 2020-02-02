@@ -60,3 +60,6 @@ cnoremap <C-K> <C-U>
 
 " Easier buffer switching
 :nnoremap <leader>ls :ls<cr>:b<space>
+
+" Replace word under cursor
+:nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
