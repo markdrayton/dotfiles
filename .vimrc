@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-sleuth'
 call plug#end()
