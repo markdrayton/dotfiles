@@ -1,0 +1,1 @@
+/home/mark/.dotfiles/.bash_profile.d/010.ssh-agent-socket.sh
