@@ -1,7 +1,7 @@
 export ZSH="/home/mark/.oh-my-zsh"
 
 ZSH_THEME=""
-plugins=(git)
+plugins=(docker docker-compose git)
 
 source $ZSH/oh-my-zsh.sh
 
