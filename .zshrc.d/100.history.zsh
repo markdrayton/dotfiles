@@ -1,6 +1,5 @@
 setopt hist_ignore_all_dups
-setopt share_history
-setopt append_history
+setopt inc_append_history
 
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
