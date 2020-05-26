@@ -137,4 +137,25 @@ if [[ "$(uname)" == "Darwin" ]]; then
         | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' \
         | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
     }
+
+    fh() {
+        local cols sep
+        cols=$((COLUMNS / 3))
+        sep='{::}'
+
+        tmpdb=/tmp/firefox-history.sqlite
+        profiles=(~/Library/Application\ Support/Firefox/Profiles/*)
+        if [[ $#profiles -gt 1 ]]; then
+            echo "more than one profile directory found" >&2
+            return 1
+        fi
+
+        cp -f "${profiles[1]}/places.sqlite" $tmpdb
+
+        sqlite3 -separator $sep $tmpdb \
+            "select substr(title, 1, $cols), url
+             from moz_places order by last_visit_date desc" \
+        | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' \
+        | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+    }
 fi
