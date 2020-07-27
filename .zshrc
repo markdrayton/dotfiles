@@ -8,3 +8,7 @@ source $ZSH/oh-my-zsh.sh
 for f in $HOME/.zshrc.d/*.zsh; do
     source "$f"
 done
+
+if [[ -e "$HOME/.zshrc.local" ]]; then
+    source "$HOME/.zshrc.local"
+fi
