@@ -1,0 +1,8 @@
+add_newline = false
+prompt_order = ["git_branch", "git_state", "git_status", "directory", "character"]
+
+[git_branch]
+symbol = "🌱 "
+
+[character]
+symbol = "➜"
