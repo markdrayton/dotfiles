@@ -163,3 +163,9 @@ if [[ "$(uname)" == "Darwin" ]]; then
         tail -r -- "$@"
     }
 fi
+
+body() {
+    IFS= read -r header
+    printf '%s\n' "$header"
+    "$@"
+}
