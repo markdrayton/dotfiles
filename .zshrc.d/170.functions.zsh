@@ -162,6 +162,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
     tac() {
         tail -r -- "$@"
     }
+
+    strava() {
+        sls \
+        | fzf --multi --no-sort --tac --header-lines=1 \
+        | awk '{ print "https://www.strava.com/activities/" $2 }' \
+        | xargs open
+    }
 fi
 
 body() {
