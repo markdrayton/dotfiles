@@ -169,6 +169,24 @@ if [[ "$(uname)" == "Darwin" ]]; then
         | awk '{ print "https://www.strava.com/activities/" $2 }' \
         | xargs open
     }
+
+    chain-dist() {
+        id=$(cat ~/.chain-id)
+        sls \
+            | awk -v id=$id '
+                    $2 == id {
+                        go = 1
+                    }
+                    {
+                        if (go && $6 == "R3") {
+                            km += $4
+                            n++
+                        }
+                    }
+                    END {
+                        printf("%d rides, %d km\n", n, km)
+                    }'
+    }
 fi
 
 body() {
