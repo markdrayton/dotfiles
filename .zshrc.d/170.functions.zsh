@@ -184,12 +184,15 @@ if [[ "$(uname)" == "Darwin" ]]; then
                     }
                     {
                         if (go && $6 == "R3") {
+                            if ($3 == "VirtualRide") {
+                                vkm += $4
+                            }
                             km += $4
                             n++
                         }
                     }
                     END {
-                        printf("%d rides, %d km\n", n, km)
+                        printf("%d rides, %d km (%d km indoors)\n", n, km, vkm)
                     }'
     }
 fi
