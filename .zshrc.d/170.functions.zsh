@@ -122,6 +122,11 @@ sus() {
     sort | uniq -c | sort -n
 }
 
+simpleserve() {
+    port=${1:-8000}
+    python3 -m http.server $port
+}
+
 if [[ "$(uname)" == "Darwin" ]]; then
     ch() {
         local cols sep
