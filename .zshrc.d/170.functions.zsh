@@ -169,7 +169,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
     }
 
     strava() {
-        sls \
+        sls "$@" \
         | fzf --multi --no-sort --tac --header-lines=1 \
         | awk '{ print "https://www.strava.com/activities/" $2 }' \
         | xargs open
