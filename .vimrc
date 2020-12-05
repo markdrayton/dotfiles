@@ -55,6 +55,9 @@ set splitbelow
 set exrc
 set secure
 
+" Allow switching buffers without saving
+set hidden
+
 " Bash like keys for the Vim command line
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
