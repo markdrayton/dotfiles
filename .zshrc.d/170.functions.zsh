@@ -128,26 +128,27 @@ simpleserve() {
 }
 
 if [[ "$(uname)" == "Darwin" ]]; then
-    ch() {
+    history-sql() {
+        db=$1
+        sql=$2
         local cols sep
         cols=$((COLUMNS / 3))
         sep='{::}'
 
+        sqlite3 -separator $sep $db $sql \
+            | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", substr($1, 1, '$cols'), $2}' \
+            | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+    }
+
+    chrome-history() {
         tmpdb=/tmp/chrome-history.sqlite
         cp -f ~/Library/Application\ Support/Google/Chrome/Default/History $tmpdb
 
-        sqlite3 -separator $sep $tmpdb \
-            "select substr(title, 1, $cols), url
-             from urls order by last_visit_time desc" \
-        | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' \
-        | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+        history-sql $tmpdb \
+            "SELECT title, url FROM urls ORDER BY last_visit_time DESC"
     }
 
-    fh() {
-        local cols sep
-        cols=$((COLUMNS / 3))
-        sep='{::}'
-
+    firefox-history() {
         tmpdb=/tmp/firefox-history.sqlite
         profiles=(~/Library/Application\ Support/Firefox/Profiles/*)
         if [[ $#profiles -gt 1 ]]; then
@@ -157,11 +158,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
         cp -f "${profiles[1]}/places.sqlite" $tmpdb
 
-        sqlite3 -separator $sep $tmpdb \
-            "select substr(title, 1, $cols), url
-             from moz_places order by last_visit_date desc" \
-        | awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' \
-        | fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+        history-sql $tmpdb \
+            "SELECT title, url FROM moz_places ORDER BY last_visit_date DESC"
+    }
+
+    safari-history() {
+        history-sql ~/Library/Safari/History.db \
+            "SELECT DISTINCT hv.title, hi.url FROM history_items AS hi, history_visits AS hv
+            WHERE hi.id = hv.history_item ORDER BY hv.visit_time DESC"
     }
 
     tac() {
