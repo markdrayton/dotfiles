@@ -10,6 +10,7 @@ format = """\
 
 [hostname]
 format = "[$hostname]($style) "
+ssh_only = false
 
 [git_branch]
 symbol = ""
