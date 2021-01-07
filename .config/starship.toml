@@ -1,8 +1,18 @@
 add_newline = false
-prompt_order = ["git_branch", "git_state", "git_status", "directory", "character"]
+format = """\
+  $hostname\
+  $git_branch\
+  $git_state\
+  $git_status\
+  $directory\
+  $character\
+"""
+
+[hostname]
+format = "[$hostname]($style) "
 
 [git_branch]
-symbol = "🌱 "
+symbol = ""
 
 [character]
-symbol = "➜"
+success_symbol = "➜"
