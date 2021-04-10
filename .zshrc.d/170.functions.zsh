@@ -181,22 +181,43 @@ if [[ "$(uname)" == "Darwin" ]]; then
 
     chain-dist() {
         id=$(cat ~/.chain-id)
-        sls \
+        sls -j \
+            | jq -r '.[] | "\(.id)\t\(.type)\t\(.external_id)\t\(.gear_id)\t\(.distance)"' \
             | awk -v id=$id '
-                    $2 == id {
+                    $1 == id {
                         go = 1
                     }
                     {
-                        if (go && $6 == "R3") {
-                            if ($3 == "VirtualRide") {
-                                vkm += $4
+                        if (go && $4 == "b667226") {
+                            if ($2 == "VirtualRide" || $3 ~ /^(trainerroad|zwift)/) {
+                                vkm += $5
                             }
-                            km += $4
+                            km += $5
                             n++
                         }
                     }
                     END {
-                        printf("%d rides, %d km (%d km indoors)\n", n, km, vkm)
+                        printf("%d rides, %d km (%d km indoors)\n", n, km / 1000, vkm / 1000)
+                    }'
+    }
+
+    p2m-battery-dist() {
+        id=$(cat ~/.p2m-battery-id)
+        sls -j \
+            | jq -r '.[] | "\(.id)\t\(.type)\t\(.external_id)\t\(.gear_id)\t\(.distance)\t\(.moving_time)"' \
+            | awk -v id=$id '
+                    $1 == id {
+                        go = 1
+                    }
+                    {
+                        if (go && $4 == "b667226") {
+                            km += $5
+                            secs += $6
+                            n++
+                        }
+                    }
+                    END {
+                        printf("%d rides, %d km (approx %.1f hours)\n", n, km / 1000, secs / 3600)
                     }'
     }
 fi
