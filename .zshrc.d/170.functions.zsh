@@ -220,6 +220,11 @@ if [[ "$(uname)" == "Darwin" ]]; then
                         printf("%d rides, %d km (approx %.1f hours)\n", n, km / 1000, secs / 3600)
                     }'
     }
+
+    strava-curl() {
+        token=$(jq -r .access_token < ~/.sls/token)
+        curl -H "Authorization: Bearer $token" "$@"
+    }
 fi
 
 body() {
