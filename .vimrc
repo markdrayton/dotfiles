@@ -79,3 +79,9 @@ autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_list_type = "quickfix"
 let g:go_fmt_command = "goimports"
+
+" vim-bufkill
+map <Leader>d :BD<cr>
+
+" https://jameschambers.co.uk/vim-typescript-slow
+set re=0
