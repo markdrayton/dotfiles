@@ -182,13 +182,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
     chain-dist() {
         id=$(cat ~/.chain-id)
         sls -j \
-            | jq -r '.[] | "\(.id)\t\(.type)\t\(.external_id)\t\(.gear_id)\t\(.distance)"' \
+            | jq -r '.[] | "\(.activity.id)\t\(.activity.type)\t\(.activity.external_id)\t\(.gear.name)\t\(.activity.distance)"' \
             | awk -v id=$id '
                     $1 == id {
                         go = 1
                     }
                     {
-                        if (go && $4 == "b667226") {
+                        if (go && $4 == "R3") {
                             if ($2 == "VirtualRide" || $3 ~ /^(trainerroad|zwift)/) {
                                 vkm += $5
                             }
@@ -204,13 +204,13 @@ if [[ "$(uname)" == "Darwin" ]]; then
     p2m-battery-dist() {
         id=$(cat ~/.p2m-battery-id)
         sls -j \
-            | jq -r '.[] | "\(.id)\t\(.type)\t\(.external_id)\t\(.gear_id)\t\(.distance)\t\(.moving_time)"' \
+            | jq -r '.[] | "\(.activity.id)\t\(.activity.type)\t\(.activity.external_id)\t\(.gear.name)\t\(.activity.distance)\t\(.activity.moving_time)"' \
             | awk -v id=$id '
                     $1 == id {
                         go = 1
                     }
                     {
-                        if (go && $4 == "b667226") {
+                        if (go && $4 == "R3") {
                             km += $5
                             secs += $6
                             n++
