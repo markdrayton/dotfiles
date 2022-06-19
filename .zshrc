@@ -18,3 +18,4 @@ if [[ -e "$HOME/.zshrc.local" ]]; then
 fi
 
 eval "$(starship init zsh)"
+eval "$(rbenv init - zsh)"
