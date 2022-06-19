@@ -179,16 +179,17 @@ if [[ "$(uname)" == "Darwin" ]]; then
         | xargs open
     }
 
-    chain-dist() {
-        id=$(cat ~/.chain-id)
+    _chain-dist() {
+        local id=$1
+        local gear=$2
         sls -j \
             | jq -r '.[] | "\(.activity.id)\t\(.activity.type)\t\(.activity.external_id)\t\(.gear.name)\t\(.activity.distance)"' \
-            | awk -v id=$id '
+            | awk -F'\t' -v id="$id" -v gear="$gear" '
                     $1 == id {
                         go = 1
                     }
                     {
-                        if (go && $4 == "R3") {
+                        if (go && $4 == gear) {
                             if ($2 == "VirtualRide" || $3 ~ /^(trainerroad|zwift)/) {
                                 vkm += $5
                             }
@@ -199,6 +200,14 @@ if [[ "$(uname)" == "Darwin" ]]; then
                     END {
                         printf("%d rides, %d km (%d km indoors)\n", n, km / 1000, vkm / 1000)
                     }'
+    }
+
+    chain-dist-r3() {
+        _chain-dist "$(cat ~/.chain-id-r3)" R3
+    }
+
+    chain-dist-caad8() {
+        _chain-dist "$(cat ~/.chain-id-caad8)" "CAAD 8"
     }
 
     p2m-battery-dist() {
